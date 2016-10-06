@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Akka.Actor;
 using AkkaDemo.Common;
 using AkkaDemo.Common.Actors;
 using AkkaDemo.Common.Messages;
 
-namespace AkkaDemo
+namespace AkkaDemo.Server
 {
     internal class Program
     {

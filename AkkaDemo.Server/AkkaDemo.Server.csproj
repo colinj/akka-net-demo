@@ -7,8 +7,8 @@
     <ProjectGuid>{D8646353-33BB-4479-A35C-635444C5BCF6}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AkkaDemo</RootNamespace>
-    <AssemblyName>AkkaDemo</AssemblyName>
+    <RootNamespace>AkkaDemo.Server</RootNamespace>
+    <AssemblyName>AkkaDemo.Server</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
