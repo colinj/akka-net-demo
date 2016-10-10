@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AkkaDemo.Common.Messages
 {
@@ -24,7 +20,7 @@ namespace AkkaDemo.Common.Messages
 
         public override string ToString()
         {
-            return $"{LogEventDescription.ToString(LogEvent)}: {Message}";
+            return $"{ LogEventDescription.ToString(LogEvent) }: { Message }";
         }
     }
 

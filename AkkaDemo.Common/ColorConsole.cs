@@ -39,8 +39,8 @@ namespace AkkaDemo.Common
             Write(ConsoleColor.White, string.Format(message, args));
         }
 
-
         static object locker = new object();
+
         private static void Write(ConsoleColor color, string message)
         {
             // Locking for demo purposes so we get the correct color output.

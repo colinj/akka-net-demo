@@ -20,10 +20,7 @@ namespace AkkaDemo.Client
             ColorConsole.WriteLineGray("Creating Client Demo ActorSystem");
             _actorSystem = ActorSystem.Create("LogClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            //            var logger = _actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
- //           var logger = _actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8080/*/LogCoordinator");
- //           var logger = _actorSystem.ActorSelection("akka.tcp://RemoteDemo@localhost:8091/user/LogCoordinator");
-
+            var logger = _actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8090/user/LogCoordinator");
             string command;
 
             do
@@ -42,9 +39,7 @@ namespace AkkaDemo.Client
                     var logMsg = command.Split(',')[2];
 
                     var message = new LogEntryMessage(appId, LogEventType.Info, logMsg);
-                                      var logger = _actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8090/user/LogCoordinator");
                     logger.Tell(message);
-                    //_actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8090/user/Logger").Tell(message);
                 }
 
             } while (command != "exit");
