@@ -15,20 +15,25 @@ namespace AkkaDemo.Server
         private static void Main(string[] args)
         {
             ColorConsole.WriteLineGray("Creating Demo Server ActorSystem");
+
             var config = ConfigurationFactory.ParseString(@"
 akka {
-                        actor {
+ loglevel = OFF
+    actor {
         provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
-                            #serializers {
-                            #    wire = ""Akka.Serialization.WireSerializer, Akka.Serialization.Wire""
-                            #}
-                            #serialization-bindings {
-                            #    ""System.Object"" = wire
-                            #}
-                        }
+            debug {
+                receive = on
+              autoreceive = on
+              lifecycle = on
+              event-stream = on
+              unhandled = on
+        }
+    }
 
     remote {
         helios.tcp {
+              transport-class = ""Akka.Remote.Transport.Helios.HeliosTcpTransport, Akka.Remote""
+              transport-protocol = tcp
             port = 8080
             hostname = localhost
         }
@@ -36,7 +41,7 @@ akka {
 }
 ");
 
-            _actorSystem = ActorSystem.Create("LogServer", config);
+            _actorSystem = ActorSystem.Create("LogServer");
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
             var logger = _actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
