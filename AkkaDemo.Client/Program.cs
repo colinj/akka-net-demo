@@ -42,7 +42,7 @@ namespace AkkaDemo.Client
                     var logMsg = command.Split(',')[2];
 
                     var message = new LogEntryMessage(appId, LogEventType.Info, logMsg);
-                                      var logger = _actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8080/user/LogCoordinator");
+                                      var logger = _actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8090/user/LogCoordinator");
                     logger.Tell(message);
                     //_actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8090/user/Logger").Tell(message);
                 }
