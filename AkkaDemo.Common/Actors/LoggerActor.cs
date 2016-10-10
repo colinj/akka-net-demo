@@ -19,6 +19,12 @@ namespace AkkaDemo.Common.Actors
         private void HandleLogEntryMessage(LogEntryMessage msg)
         {
             File.AppendAllText(_logFileName, $"{ msg }\r\n");
+            ColorConsole.WriteLineYellow($"messaged logged for { msg.AppId }.");
+        }
+
+        protected override void PreStart()
+        {
+            ColorConsole.WriteLineGreen($"LoggerActor: Log file = { _logFileName }.");
         }
     }
 }

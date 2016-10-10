@@ -4,45 +4,69 @@ using Akka.Actor;
 using AkkaDemo.Common;
 using AkkaDemo.Common.Actors;
 using AkkaDemo.Common.Messages;
+using Akka.Configuration;
 
 namespace AkkaDemo.Server
 {
-    internal class Program
+    class Program
     {
         private static ActorSystem _actorSystem;
 
         private static void Main(string[] args)
         {
-            ColorConsole.WriteLineGray("Creating Demo ActorSystem");
-            _actorSystem = ActorSystem.Create("LogDemo");
+            ColorConsole.WriteLineGray("Creating Demo Server ActorSystem");
+            var config = ConfigurationFactory.ParseString(@"
+akka {
+                        actor {
+        provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
+                            #serializers {
+                            #    wire = ""Akka.Serialization.WireSerializer, Akka.Serialization.Wire""
+                            #}
+                            #serialization-bindings {
+                            #    ""System.Object"" = wire
+                            #}
+                        }
+
+    remote {
+        helios.tcp {
+            port = 8080
+            hostname = localhost
+        }
+    }
+}
+");
+
+            _actorSystem = ActorSystem.Create("LogServer", config);
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
             var logger = _actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
+            /*
 
             string command;
 
-            do
-            {
-                ShortPause();
+                                                                do
+                                                                {
+                                                                    ShortPause();
 
-                Console.WriteLine();
-                Console.ForegroundColor = ConsoleColor.DarkGray;
-                ColorConsole.WriteLineGray("enter a command and hit enter");
+                                                                    Console.WriteLine();
+                                                                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                                                                    ColorConsole.WriteLineGray("enter a command and hit enter");
 
-                command = Console.ReadLine() ?? string.Empty;
+                                                                    command = Console.ReadLine() ?? string.Empty;
 
-                if (command.StartsWith("log"))
-                {
-                    var appId = command.Split(',')[1];
-                    var logMsg = command.Split(',')[2];
+                                                                    if (command.StartsWith("log"))
+                                                                    {
+                                                                        var appId = command.Split(',')[1];
+                                                                        var logMsg = command.Split(',')[2];
 
-                    var message = new LogEntryMessage(appId, LogEventType.Info, logMsg);
-                    logger.Tell(message);
-                }
+                                                                        var message = new LogEntryMessage(appId, LogEventType.Info, logMsg);
+                                                                        logger.Tell(message);
+                                                                    }
 
-            } while (command != "exit");
+                                                                } while (command != "exit");
 
-            _actorSystem.Terminate();
+                                                                _actorSystem.Terminate();
+                                                      */
             _actorSystem.WhenTerminated.Wait();
             ColorConsole.WriteLineGray("Actor system terminated");
             Console.ReadKey();

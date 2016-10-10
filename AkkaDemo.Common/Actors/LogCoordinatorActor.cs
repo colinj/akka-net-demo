@@ -13,6 +13,8 @@ namespace AkkaDemo.Common.Actors
 
         public LogCoordinatorActor()
         {
+            Directory.CreateDirectory(LogPath);
+
             _loggers = new Dictionary<string, IActorRef>();
 
             Receive<LogEntryMessage>(msg => HandleLogEntryMessage(msg));
@@ -35,6 +37,11 @@ namespace AkkaDemo.Common.Actors
             }
 
             return _loggers[appId];
+        }
+
+        protected override void PreStart()
+        {
+            ColorConsole.WriteLineGreen("LogCoordinator PreStart");
         }
     }
 }
