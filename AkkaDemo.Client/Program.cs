@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
 using Akka.Actor;
 using AkkaDemo.Common;
-using AkkaDemo.Common.Actors;
 using AkkaDemo.Common.Messages;
 using System.Threading;
 
@@ -18,9 +14,11 @@ namespace AkkaDemo.Client
         private static void Main(string[] args)
         {
             ColorConsole.WriteLineGray("Creating Client Demo ActorSystem");
+            var loggerAddress = ConfigurationManager.AppSettings["loggerAddress"];
+
             _actorSystem = ActorSystem.Create("LogClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            var logger = _actorSystem.ActorSelection("akka.tcp://LogServer@localhost:8090/user/LogCoordinator");
+            var logger = _actorSystem.ActorSelection($"akka.tcp://LogServer@{ loggerAddress }/user/LogCoordinator");
             string command;
 
             do
