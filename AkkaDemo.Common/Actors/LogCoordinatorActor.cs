@@ -42,7 +42,7 @@ namespace AkkaDemo.Common.Actors
         #region Lifecycle hooks
         protected override void PreStart()
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } PreStart");
+            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } PreStart on { Environment.MachineName }");
         }
 
         protected override void PostStop()
