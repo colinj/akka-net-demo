@@ -20,8 +20,11 @@ namespace AkkaDemo.Common.Actors
 
         private void HandleReportMessage(ReportMessage rpt)
         {
+            Random rnd = new Random();
+            var delay = rnd.Next(10, 20) * 1000;
+
             ColorConsole.WriteLineYellow($"Generating Report for Job #{rpt.JobId}.");
-            Thread.Sleep(3000);
+            Thread.Sleep(delay);
             ColorConsole.WriteLineCyan($"Report '{rpt.ReportTitle}' for Job #{rpt.JobId} completed.");
             Sender.Tell($"Report #{rpt.JobId} completed.");
         }
