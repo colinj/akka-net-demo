@@ -6,9 +6,8 @@ using AkkaDemo.Common.Messages;
 
 namespace AkkaDemo.Common.Actors
 {
-    public class LogCoordinatorActor : ReceiveActor
+    public class LogCoordinatorActor : BaseActor
     {
-        private const string ActorTypeDesc = "LogCoordinatorActor";
         private const string LogPath = @"C:\AkkaLogDemo\";
         private readonly Dictionary<string, IActorRef> _loggers;
 
@@ -42,23 +41,23 @@ namespace AkkaDemo.Common.Actors
         #region Lifecycle hooks
         protected override void PreStart()
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } PreStart on { Environment.MachineName }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } PreStart on { Environment.MachineName }");
         }
 
         protected override void PostStop()
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } PostStop");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } PostStop");
         }
 
         protected override void PreRestart(Exception reason, object message)
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } PreRestart because: { reason }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } PreRestart because: { reason }");
             base.PreRestart(reason, message);
         }
 
         protected override void PostRestart(Exception reason)
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } PostRestart because: { reason }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } PostRestart because: { reason }");
             base.PostRestart(reason);
         }
         #endregion

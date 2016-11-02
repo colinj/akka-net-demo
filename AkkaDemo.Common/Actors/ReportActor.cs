@@ -7,10 +7,9 @@ using AkkaDemo.Common.Messages;
 
 namespace AkkaDemo.Common.Actors
 {
-    class ReportActor : ReceiveActor
+    class ReportActor : BaseActor
     {
-        private const string ActorTypeDesc = "ReportActor";
-        private int _jobId { get; set; }
+        private int _jobId; 
 
         public ReportActor(int jobId)
         {
@@ -32,23 +31,23 @@ namespace AkkaDemo.Common.Actors
         #region Lifecycle hooks
         protected override void PreStart()
         {
-//            ColorConsole.WriteLineYellow($"Report actor { _jobId } created.");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } created.");
         }
 
         protected override void PostStop()
         {
-//            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } { _jobId } PostStop");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } PostStop");
         }
 
         protected override void PreRestart(Exception reason, object message)
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } { _jobId } PreRestart because: { reason }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } PreRestart because: { reason }");
             base.PreRestart(reason, message);
         }
 
         protected override void PostRestart(Exception reason)
         {
-            ColorConsole.WriteLineYellow($"{ ActorTypeDesc } { _jobId } PostRestart because: { reason }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } PostRestart because: { reason }");
             base.PostRestart(reason);
         }
         #endregion
