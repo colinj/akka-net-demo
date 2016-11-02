@@ -15,11 +15,16 @@ namespace AkkaDemo.Server
             _actorSystem = ActorSystem.Create("LogServer");
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            var logger = _actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
+            _actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
+            _actorSystem.ActorOf(Props.Create<ReportSchedulerActor>(), "ReportScheduler");
 
+            Console.ReadKey();
+            _actorSystem.Terminate();
+            ColorConsole.WriteLineGray("Terminate called");
             _actorSystem.WhenTerminated.Wait();
             ColorConsole.WriteLineGray("Actor system terminated");
             Console.ReadKey();
+
             Environment.Exit(1);
         }
     }

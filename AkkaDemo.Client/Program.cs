@@ -4,6 +4,7 @@ using Akka.Actor;
 using AkkaDemo.Common;
 using AkkaDemo.Common.Messages;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AkkaDemo.Client
 {
@@ -19,6 +20,7 @@ namespace AkkaDemo.Client
             _actorSystem = ActorSystem.Create("LogClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
             var logger = _actorSystem.ActorSelection($"akka.tcp://LogServer@{ loggerAddress }/user/LogCoordinator");
+            var scheduler = _actorSystem.ActorSelection($"akka.tcp://LogServer@{ loggerAddress }/user/ReportScheduler");
             string command;
 
             do
@@ -39,6 +41,30 @@ namespace AkkaDemo.Client
                     var message = new LogEntryMessage(appId, LogEventType.Info, logMsg);
                     logger.Tell(message);
                 }
+
+                if (command.StartsWith("rpt"))
+                {
+                    ColorConsole.WriteLineGreen("ready to send report");
+                    int jobId;
+
+                    int.TryParse(command.Split(',')[1], out jobId);
+                    var rptTitle= command.Split(',')[2];
+
+                    var report = new ReportMessage
+                                 {
+                                     JobId = jobId,
+                                     ReportTitle = rptTitle
+                                 };
+                    Task.Run(async () =>
+                                   {
+                                       var r = scheduler.Ask(report);
+
+                                       await Task.WhenAll(r);
+                                       ColorConsole.WriteLineCyan(r.Result.ToString());
+                                   });
+                       
+                }
+
 
             } while (command != "exit");
 
