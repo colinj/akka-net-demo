@@ -7,47 +7,48 @@ using AkkaDemo.Common.Messages;
 
 namespace AkkaDemo.Common.Actors
 {
-    class ReportActor : BaseActor
+    public class ReportActor : BaseActor
     {
-        private int _jobId; 
+        private static Random Rnd = new Random();
+        private static int NextId = 0;
+        private int _actorId;
 
-        public ReportActor(int jobId)
+        public ReportActor()
         {
-            _jobId = jobId;
+            _actorId = ++NextId;
             Receive<ReportMessage>(rpt => HandleReportMessage(rpt));
         }
 
         private void HandleReportMessage(ReportMessage rpt)
         {
-            Random rnd = new Random();
-            var delay = rnd.Next(10, 20) * 1000;
+            var delay = Rnd.Next(10, 20);
 
-            ColorConsole.WriteLineYellow($"Generating Report for Job #{rpt.JobId}. Should take {delay/1000}s to finish.it");
-            Thread.Sleep(delay);
-            ColorConsole.WriteLineCyan($"Report '{rpt.ReportTitle}' for Job #{rpt.JobId} completed.");
+            ColorConsole.WriteLineYellow($"Generating Report for Job #{rpt.JobId}. Should take { delay }s to finish.it");
+            Thread.Sleep(delay * 1000);
+            ColorConsole.WriteLineCyan($"{ ActorClassName } { _actorId }: Report '{rpt.ReportTitle}' for Job #{rpt.JobId} completed.");
             Sender.Tell($"Report #{rpt.JobId} completed.");
         }
 
         #region Lifecycle hooks
         protected override void PreStart()
         {
-            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } created.");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _actorId } created.");
         }
 
         protected override void PostStop()
         {
-            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } PostStop");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _actorId } PostStop");
         }
 
         protected override void PreRestart(Exception reason, object message)
         {
-            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } PreRestart because: { reason }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _actorId } PreRestart because: { reason }");
             base.PreRestart(reason, message);
         }
 
         protected override void PostRestart(Exception reason)
         {
-            ColorConsole.WriteLineYellow($"{ ActorClassName } { _jobId } PostRestart because: { reason }");
+            ColorConsole.WriteLineYellow($"{ ActorClassName } { _actorId } PostRestart because: { reason }");
             base.PostRestart(reason);
         }
         #endregion

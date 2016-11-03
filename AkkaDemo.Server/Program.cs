@@ -1,5 +1,6 @@
 ﻿using System;
 using Akka.Actor;
+using Akka.Routing;
 using AkkaDemo.Common;
 using AkkaDemo.Common.Actors;
 
@@ -14,7 +15,8 @@ namespace AkkaDemo.Server
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
             actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
-            actorSystem.ActorOf(Props.Create<ReportSchedulerActor>(), "ReportScheduler");
+            //            actorSystem.ActorOf(Props.Create<ReportSchedulerActor>(), "ReportScheduler");
+            actorSystem.ActorOf(Props.Create<ReportActor>().WithRouter(FromConfig.Instance), "Report");
 
             Console.ReadKey();
             actorSystem.Terminate();

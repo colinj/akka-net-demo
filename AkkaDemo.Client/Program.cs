@@ -12,13 +12,15 @@ namespace AkkaDemo.Client
     {
         private static void Main(string[] args)
         {
+            int jobId = 1;
+
             ColorConsole.WriteLineGray("Creating Client Actor System");
             var loggerAddress = ConfigurationManager.AppSettings["loggerAddress"];
 
             var actorSystem = ActorSystem.Create("LogClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
             var logger = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/LogCoordinator");
-            var scheduler = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/ReportScheduler");
+            var reporter = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/Report");
             string command;
 
             do
@@ -42,28 +44,21 @@ namespace AkkaDemo.Client
 
                 if (command.StartsWith("rpt"))
                 {
-                    ColorConsole.WriteLineGreen("ready to send report");
-                    int jobId;
-
-                    int.TryParse(command.Split(',')[1], out jobId);
-                    var rptTitle= command.Split(',')[2];
-
                     var report = new ReportMessage
                                  {
-                                     JobId = jobId,
-                                     ReportTitle = rptTitle
+                                     JobId = jobId++,
+                                     ReportTitle = command.Split(',')[1]
                                  };
+
                     Task.Run(async () =>
                                    {
-                                       var r = scheduler.Ask(report);
+                                       var r = reporter.Ask(report);
 
                                        await Task.WhenAll(r);
                                        ColorConsole.WriteLineCyan(r.Result.ToString());
+                                       ColorConsole.WriteLineGray("");
                                    });
-                       
                 }
-
-
             } while (command != "exit");
 
             actorSystem.Terminate();

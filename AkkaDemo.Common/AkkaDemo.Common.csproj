@@ -54,7 +54,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\BaseActor.cs" />
-    <Compile Include="Actors\ReportSchedulerActor.cs" />
     <Compile Include="Actors\LogCoordinatorActor.cs" />
     <Compile Include="Actors\LoggerActor.cs" />
     <Compile Include="Actors\ReportActor.cs" />
