@@ -7,21 +7,19 @@ namespace AkkaDemo.Server
 {
     class Program
     {
-        private static ActorSystem _actorSystem;
-
         private static void Main(string[] args)
         {
-            ColorConsole.WriteLineGray("Creating Demo Server ActorSystem");
-            _actorSystem = ActorSystem.Create("LogServer");
+            ColorConsole.WriteLineGray("Creating Demo Server Actor System");
+            var actorSystem = ActorSystem.Create("DemoServer");
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            _actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
-            _actorSystem.ActorOf(Props.Create<ReportSchedulerActor>(), "ReportScheduler");
+            actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
+            actorSystem.ActorOf(Props.Create<ReportSchedulerActor>(), "ReportScheduler");
 
             Console.ReadKey();
-            _actorSystem.Terminate();
+            actorSystem.Terminate();
             ColorConsole.WriteLineGray("Terminate called");
-            _actorSystem.WhenTerminated.Wait();
+            actorSystem.WhenTerminated.Wait();
             ColorConsole.WriteLineGray("Actor system terminated");
             Console.ReadKey();
 

@@ -10,17 +10,15 @@ namespace AkkaDemo.Client
 {
     class Program
     {
-        private static ActorSystem _actorSystem;
-
         private static void Main(string[] args)
         {
-            ColorConsole.WriteLineGray("Creating Client Demo ActorSystem");
+            ColorConsole.WriteLineGray("Creating Client Actor System");
             var loggerAddress = ConfigurationManager.AppSettings["loggerAddress"];
 
-            _actorSystem = ActorSystem.Create("LogClient");
+            var actorSystem = ActorSystem.Create("LogClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            var logger = _actorSystem.ActorSelection($"akka.tcp://LogServer@{ loggerAddress }/user/LogCoordinator");
-            var scheduler = _actorSystem.ActorSelection($"akka.tcp://LogServer@{ loggerAddress }/user/ReportScheduler");
+            var logger = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/LogCoordinator");
+            var scheduler = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/ReportScheduler");
             string command;
 
             do
@@ -68,8 +66,8 @@ namespace AkkaDemo.Client
 
             } while (command != "exit");
 
-            _actorSystem.Terminate();
-            _actorSystem.WhenTerminated.Wait();
+            actorSystem.Terminate();
+            actorSystem.WhenTerminated.Wait();
             ColorConsole.WriteLineGray("Actor system terminated");
             Console.ReadKey();
             Environment.Exit(1);
