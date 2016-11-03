@@ -22,7 +22,7 @@ namespace AkkaDemo.Common.Actors
             Random rnd = new Random();
             var delay = rnd.Next(10, 20) * 1000;
 
-            ColorConsole.WriteLineYellow($"Generating Report for Job #{rpt.JobId}.");
+            ColorConsole.WriteLineYellow($"Generating Report for Job #{rpt.JobId}. Should take {delay/1000}s to finish.it");
             Thread.Sleep(delay);
             ColorConsole.WriteLineCyan($"Report '{rpt.ReportTitle}' for Job #{rpt.JobId} completed.");
             Sender.Tell($"Report #{rpt.JobId} completed.");
