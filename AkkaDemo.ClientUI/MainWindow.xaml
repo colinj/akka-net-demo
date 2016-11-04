@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AkkaDemo.ClientUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="405" Width="494">
+        Title="Akka Demo UI Client" Height="353" Width="479">
     <Grid>
-        <StackPanel Margin="0,0,0,269">
+        <StackPanel Margin="0">
             <StackPanel Height="51" VerticalAlignment="Top" Orientation="Horizontal">
                 <TextBox x:Name="LogMessage" Height="23" TextWrapping="Wrap" Margin="10,14,0,14" Width="350" VerticalAlignment="Center" ToolTip="Log Message"/>
                 <Button x:Name="LogButton" Content="Log" Margin="10,10,10,0" Width="89" Height="32" HorizontalAlignment="Left" VerticalAlignment="Top" Click="LogButton_Click"/>
@@ -19,11 +19,7 @@
         </StackPanel>
         <DockPanel Margin="0,102,0,1">
             <TextBox x:Name="StatusBox" TextWrapping="Wrap" HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" VerticalScrollBarVisibility="Auto" Padding="0" Margin="10,5,10,10" AcceptsReturn="True" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                <TextBox.BindingGroup>
-                    <BindingGroup/>
-                </TextBox.BindingGroup>
             </TextBox>
         </DockPanel>
-
     </Grid>
 </Window>
