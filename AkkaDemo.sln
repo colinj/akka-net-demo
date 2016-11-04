@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaDemo.Remote", "AkkaDemo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lighthouse", "Lighthouse\Lighthouse.csproj", "{87BE1ABF-1F59-41AB-A3CB-4B1E7E0B218A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AkkaDemo.ClientUI", "AkkaDemo.ClientUI\AkkaDemo.ClientUI.csproj", "{815F70B1-95DA-4778-A2B9-D3433CEB76C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{87BE1ABF-1F59-41AB-A3CB-4B1E7E0B218A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87BE1ABF-1F59-41AB-A3CB-4B1E7E0B218A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87BE1ABF-1F59-41AB-A3CB-4B1E7E0B218A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{815F70B1-95DA-4778-A2B9-D3433CEB76C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{815F70B1-95DA-4778-A2B9-D3433CEB76C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{815F70B1-95DA-4778-A2B9-D3433CEB76C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{815F70B1-95DA-4778-A2B9-D3433CEB76C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
