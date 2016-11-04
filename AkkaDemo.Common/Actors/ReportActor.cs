@@ -21,7 +21,7 @@ namespace AkkaDemo.Common.Actors
 
         private void HandleReportMessage(ReportMessage rpt)
         {
-            var delay = Rnd.Next(10, 20);
+            var delay = Rnd.Next(5, 10);
 
             ColorConsole.WriteLineYellow($"Generating Report for Job #{rpt.JobId}. Should take { delay }s to finish.it");
             Thread.Sleep(delay * 1000);

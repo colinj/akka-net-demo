@@ -17,7 +17,7 @@ namespace AkkaDemo.Client
             ColorConsole.WriteLineGray("Creating Client Actor System");
             var serverLocation = ConfigurationManager.AppSettings["serverLocation"];
 
-            var actorSystem = ActorSystem.Create("LogClient");
+            var actorSystem = ActorSystem.Create("ConsoleClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
             var logger = actorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/LogCoordinator");
             var reporter = actorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/Report");
