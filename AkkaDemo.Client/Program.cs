@@ -12,15 +12,15 @@ namespace AkkaDemo.Client
     {
         private static void Main(string[] args)
         {
-            int jobId = 1;
+            var jobId = 1;
 
             ColorConsole.WriteLineGray("Creating Client Actor System");
-            var loggerAddress = ConfigurationManager.AppSettings["loggerAddress"];
+            var serverLocation = ConfigurationManager.AppSettings["serverLocation"];
 
             var actorSystem = ActorSystem.Create("LogClient");
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            var logger = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/LogCoordinator");
-            var reporter = actorSystem.ActorSelection($"akka.tcp://DemoServer@{ loggerAddress }/user/Report");
+            var logger = actorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/LogCoordinator");
+            var reporter = actorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/Report");
             string command;
 
             do
@@ -53,9 +53,8 @@ namespace AkkaDemo.Client
                     Task.Run(async () =>
                                    {
                                        var r = reporter.Ask(report);
-
-                                       await Task.WhenAll(r);
-                                       ColorConsole.WriteLineCyan(r.Result.ToString());
+                                       var ack = await r;
+                                       ColorConsole.WriteLineCyan(ack.ToString());
                                        ColorConsole.WriteLineGray("");
                                    });
                 }
