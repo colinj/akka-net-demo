@@ -44,11 +44,7 @@ namespace AkkaDemo.Client
 
                 if (command.StartsWith("rpt"))
                 {
-                    var report = new ReportMessage
-                                 {
-                                     JobId = jobId++,
-                                     ReportTitle = command.Split(',')[1]
-                                 };
+                    var report = new ReportMessage(jobId++, command.Split(',')[1]);
 
                     Task.Run(async () =>
                                    {

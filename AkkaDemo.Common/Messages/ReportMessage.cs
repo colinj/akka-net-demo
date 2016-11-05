@@ -4,7 +4,14 @@ namespace AkkaDemo.Common.Messages
 {
     public class ReportMessage
     {
-        public int JobId { get; set; }
-        public string ReportTitle { get; set; }
+        public int JobId { get; }
+        public string ReportTitle { get; }
+
+        public ReportMessage(int id, string title)
+        {
+            JobId = id;
+            ReportTitle = title;
+        }
     }
+
 }

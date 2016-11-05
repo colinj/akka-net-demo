@@ -50,11 +50,7 @@ namespace AkkaDemo.ClientUI
         {
             AddStatusLog($"Sending job #{ _jobId }.");
 
-            var job = new ReportMessage
-                      {
-                          JobId = _jobId++,
-                          ReportTitle = ReportTitle.Text
-                      };
+            var job = new ReportMessage(_jobId++, ReportTitle.Text);
 
             ReportTitle.SelectAll();
 
