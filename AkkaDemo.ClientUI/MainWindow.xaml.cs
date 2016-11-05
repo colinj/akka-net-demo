@@ -56,6 +56,8 @@ namespace AkkaDemo.ClientUI
                           ReportTitle = ReportTitle.Text
                       };
 
+            ReportTitle.SelectAll();
+
             Task.Run(async () =>
                            {
                                var scheduledJob = _reporter.Ask(job);
