@@ -9,7 +9,7 @@ namespace AkkaDemo.Remote
         private static void Main(string[] args)
         {
             ColorConsole.WriteLineGray("Creating Remote Actor System");
-            var actorSystem = ActorSystem.Create("RemoteSystem");
+            var actorSystem = ActorSystem.Create("DemoServer");
 
             actorSystem.WhenTerminated.Wait();
             ColorConsole.WriteLineGray("Actor system terminated");
