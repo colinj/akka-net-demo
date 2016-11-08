@@ -29,24 +29,19 @@ namespace AkkaDemo.ClientUI
     public partial class MainWindow : Window
     {
         private readonly ActorSystem _clientActorSystem = ActorSystem.Create("akkaDemo");
-        private readonly ActorSelection _logger;
-        private readonly IActorRef _reporter;
+        private readonly IActorRef _api;
         private int _jobId = 1;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            var serverLocation = ConfigurationManager.AppSettings["serverLocation"];
-            _logger = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/logCoordinator");
-            //            _reporter = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/report");
-            _reporter = _clientActorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "report");
+            _api = _clientActorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "api");
         }
 
         private void LogButton_Click(object sender, RoutedEventArgs e)
         {
             var message = new LogEntryMessage("UI-Client", LogEventType.Info, LogMessage.Text);
-            _logger.Tell(message);
+            _api.Tell(message);
         }
 
         private void ScheduleJobButton_Click(object sender, RoutedEventArgs e)
@@ -59,7 +54,7 @@ namespace AkkaDemo.ClientUI
 
             Task.Run(async () =>
                            {
-                               var scheduledJob = _reporter.Ask(job);
+                               var scheduledJob = _api.Ask(job);
                                var ack = await scheduledJob;
                                AddStatusLog(ack.ToString());
                            });
