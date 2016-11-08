@@ -28,7 +28,7 @@ namespace AkkaDemo.ClientUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ActorSystem _clientActorSystem = ActorSystem.Create("DemoServer");
+        private readonly ActorSystem _clientActorSystem = ActorSystem.Create("akkaDemo");
         private readonly ActorSelection _logger;
         private readonly IActorRef _reporter;
         private int _jobId = 1;
@@ -38,9 +38,9 @@ namespace AkkaDemo.ClientUI
             InitializeComponent();
 
             var serverLocation = ConfigurationManager.AppSettings["serverLocation"];
-            _logger = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/LogCoordinator");
-            //            _reporter = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/Report");
-            _reporter = _clientActorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "Report");
+            _logger = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/logCoordinator");
+            //            _reporter = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/report");
+            _reporter = _clientActorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "report");
         }
 
         private void LogButton_Click(object sender, RoutedEventArgs e)

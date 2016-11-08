@@ -18,7 +18,7 @@ namespace AkkaDemo.Remote
             };
 
             ColorConsole.WriteLineGray("Creating Remote Actor System");
-            var actorSystem = ActorSystem.Create("DemoServer");
+            var actorSystem = ActorSystem.Create("akkaDemo");
 
             QuitEvent.WaitOne();
 
