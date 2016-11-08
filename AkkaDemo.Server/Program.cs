@@ -14,8 +14,10 @@ namespace AkkaDemo.Server
             var actorSystem = ActorSystem.Create("DemoServer");
 
             ColorConsole.WriteLineGray("Creating actor supervisory hierarchy");
-            actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
-            actorSystem.ActorOf(Props.Create<ReportActor>().WithRouter(FromConfig.Instance), "Report");
+            var logger = actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "LogCoordinator");
+            var reporter = actorSystem.ActorOf(Props.Create<ReportActor>().WithRouter(FromConfig.Instance), "Report");
+
+            actorSystem.ActorOf(Props.Create<ApiActor>(logger, reporter), "api");
 
             Console.ReadKey();
             actorSystem.Terminate();

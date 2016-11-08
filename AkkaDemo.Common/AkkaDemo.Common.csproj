@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Actors\BaseActor.cs" />
     <Compile Include="Actors\LogCoordinatorActor.cs" />
+    <Compile Include="Actors\ApiActor.cs" />
     <Compile Include="Actors\LoggerActor.cs" />
     <Compile Include="Actors\ReportActor.cs" />
     <Compile Include="ColorConsole.cs" />
