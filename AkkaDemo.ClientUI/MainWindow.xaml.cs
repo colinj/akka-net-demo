@@ -16,7 +16,9 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Akka.Actor;
 using Akka.Event;
+using Akka.Routing;
 using AkkaDemo.Common;
+using AkkaDemo.Common.Actors;
 using AkkaDemo.Common.Messages;
 
 namespace AkkaDemo.ClientUI
@@ -26,9 +28,9 @@ namespace AkkaDemo.ClientUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ActorSystem _clientActorSystem = ActorSystem.Create("UIClient");
+        private readonly ActorSystem _clientActorSystem = ActorSystem.Create("DemoServer");
         private readonly ActorSelection _logger;
-        private readonly ActorSelection _reporter;
+        private readonly IActorRef _reporter;
         private int _jobId = 1;
 
         public MainWindow()
@@ -37,7 +39,8 @@ namespace AkkaDemo.ClientUI
 
             var serverLocation = ConfigurationManager.AppSettings["serverLocation"];
             _logger = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/LogCoordinator");
-            _reporter = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/Report");
+            //            _reporter = _clientActorSystem.ActorSelection($"akka.tcp://{ serverLocation }/user/Report");
+            _reporter = _clientActorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "Report");
         }
 
         private void LogButton_Click(object sender, RoutedEventArgs e)
