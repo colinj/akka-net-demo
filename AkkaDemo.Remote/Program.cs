@@ -39,6 +39,7 @@ namespace AkkaDemo.Remote
 
         private static async void MemberRemoved(ActorSystem actorSystem)
         {
+            Thread.Sleep(10000);
             await actorSystem.Terminate();
             ColorConsole.WriteLineGray("Left Cluster.");
         }
