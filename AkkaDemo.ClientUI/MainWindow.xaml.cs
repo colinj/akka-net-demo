@@ -60,6 +60,21 @@ namespace AkkaDemo.ClientUI
                            });
         }
 
+        private void CalculateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var firstOp = Int32.Parse(FirstOperand.Text);
+            var secondOp = Int32.Parse(SecondOperand.Text);
+            AddStatusLog($"Calculating with: {firstOp}, {secondOp}");
+            var msg = new CalcMessage(firstOp, secondOp);
+            Task.Run(async () =>
+            {
+                var calcJob = _api.Ask(msg);
+                var ack = await calcJob;
+                var result = ((CalcResultMessage)ack).Result;
+                AddStatusLog($"Result = {result}");
+            });
+        }
+
         private void AddStatusLog(string msg)
         {
             StatusBox.Dispatcher

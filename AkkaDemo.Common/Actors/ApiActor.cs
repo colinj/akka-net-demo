@@ -10,11 +10,13 @@ namespace AkkaDemo.Common.Actors
     {
         private readonly IActorRef _logActor;
         private readonly IActorRef _reportActor;
+        private readonly IActorRef _calcActor;
 
-        public ApiActor(IActorRef logActor, IActorRef reportActor)
+        public ApiActor(IActorRef logActor, IActorRef reportActor, IActorRef calcActor)
         {
             _logActor = logActor;
             _reportActor = reportActor;
+            _calcActor = calcActor;
 
             Start();
         }
@@ -23,6 +25,7 @@ namespace AkkaDemo.Common.Actors
         {
             Receive<LogEntryMessage>(msg => _logActor.Tell(msg));
             Receive<ReportMessage>(msg => _reportActor.Forward(msg));
+            Receive<CalcMessage>(msg => _calcActor.Forward(msg));
         }
 
         #region Lifecycle hooks

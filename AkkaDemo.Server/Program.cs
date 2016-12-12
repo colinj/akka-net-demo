@@ -17,9 +17,9 @@ namespace AkkaDemo.Server
 
             var logger = actorSystem.ActorOf(Props.Create<LogCoordinatorActor>(), "logCoordinator");
             var reporter = actorSystem.ActorOf(Props.Create<ReportActor>().WithRouter(FromConfig.Instance), "report");
+            var calc = actorSystem.ActorOf(Props.Create<CalcActor>().WithRouter(FromConfig.Instance), "calculator");
 
-            //            actorSystem.ActorOf(Props.Create<ApiActor>(logger, reporter), "api");
-            actorSystem.ActorOf(Props.Create(() => new ApiActor(logger, reporter)), "api");
+            actorSystem.ActorOf(Props.Create(() => new ApiActor(logger, reporter, calc)), "api");
 
             Console.ReadKey();
             actorSystem.Terminate();

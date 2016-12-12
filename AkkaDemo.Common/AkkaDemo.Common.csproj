@@ -62,11 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actors\BaseActor.cs" />
+    <Compile Include="Actors\CalcActor.cs" />
     <Compile Include="Actors\LogCoordinatorActor.cs" />
     <Compile Include="Actors\ApiActor.cs" />
     <Compile Include="Actors\LoggerActor.cs" />
     <Compile Include="Actors\ReportActor.cs" />
     <Compile Include="ColorConsole.cs" />
+    <Compile Include="Messages\CalcMessage.cs" />
     <Compile Include="Messages\LogEntryMessage.cs" />
     <Compile Include="Messages\ReportMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
