@@ -30,11 +30,14 @@ namespace AkkaDemo.ClientUI
     {
         private readonly ActorSystem _clientActorSystem = ActorSystem.Create("akkaDemo");
         private readonly IActorRef _api;
+
+        private static Random Rnd = new Random();
         private int _jobId = 1;
 
         public MainWindow()
         {
             InitializeComponent();
+            AssignRandomValues();
             _api = _clientActorSystem.ActorOf(Props.Empty.WithRouter(FromConfig.Instance), "api");
         }
 
@@ -46,7 +49,7 @@ namespace AkkaDemo.ClientUI
 
         private void ScheduleJobButton_Click(object sender, RoutedEventArgs e)
         {
-            AddStatusLog($"Sending job #{ _jobId }.");
+            Log($"Sending job #{ _jobId }.");
 
             var job = new ReportMessage(_jobId++, ReportTitle.Text);
 
@@ -54,9 +57,8 @@ namespace AkkaDemo.ClientUI
 
             Task.Run(async () =>
                            {
-                               var scheduledJob = _api.Ask(job);
-                               var ack = await scheduledJob;
-                               AddStatusLog(ack.ToString());
+                               var retVal = await _api.Ask(job);
+                               Log(retVal.ToString());
                            });
         }
 
@@ -64,18 +66,24 @@ namespace AkkaDemo.ClientUI
         {
             var firstOp = Int32.Parse(FirstOperand.Text);
             var secondOp = Int32.Parse(SecondOperand.Text);
-            AddStatusLog($"Calculating with: {firstOp}, {secondOp}");
-            var msg = new CalcMessage(firstOp, secondOp);
+            Log($"Sending calculation #{_jobId} with: {firstOp}, {secondOp}");
+
+            var msg = new CalcMessage(_jobId++, firstOp, secondOp);
             Task.Run(async () =>
             {
-                var calcJob = _api.Ask(msg);
-                var ack = await calcJob;
-                var result = ((CalcResultMessage)ack).Result;
-                AddStatusLog($"Result = {result}");
+                var retVal = await _api.Ask<CalcResultMessage>(msg);
+                Log($"Result for calculation #{retVal.JobId} using Version {retVal.Version} = {retVal.Result}");
             });
+            AssignRandomValues();
         }
 
-        private void AddStatusLog(string msg)
+        private void AssignRandomValues()
+        {
+            FirstOperand.Text = Rnd.Next(20).ToString();
+            SecondOperand.Text = Rnd.Next(20).ToString();
+        }
+
+        private void Log(string msg)
         {
             StatusBox.Dispatcher
                      .BeginInvoke(DispatcherPriority.Render, new Action(() => { StatusBox.AppendText(Environment.NewLine + msg); }));

@@ -15,7 +15,7 @@ namespace AkkaDemo.WebAPI.Controllers
     {
         public async Task<CalcResultMessage> Post(CalcRequest request)
         {
-            return await WebApiApplication.ApiActor.Ask<CalcResultMessage>(new CalcMessage(request.LeftOperand, request.RightOperand)); 
+            return await WebApiApplication.ApiActor.Ask<CalcResultMessage>(new CalcMessage(request.JobId, request.LeftOperand, request.RightOperand)); 
         }
     }
 }

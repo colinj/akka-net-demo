@@ -20,9 +20,20 @@ namespace AkkaDemo.Common.Actors
         {
             ColorConsole.WriteLineYellow($"Calc V1 for {msg.LeftOperand} and {msg.RightOperand}");
             Thread.Sleep(5000);
-            var result = msg.LeftOperand + msg.RightOperand;
-            Sender.Tell(new CalcResultMessage(msg, result));
+            Sender.Tell(CalcVersionOne(msg));
             ColorConsole.WriteLineCyan($"Result completed.");
+        }
+
+        private CalcResultMessage CalcVersionOne(CalcMessage msg)
+        {
+            var result = msg.LeftOperand + msg.RightOperand;
+            return new CalcResultMessage(msg.JobId, 1, msg, result);
+        }
+
+        private CalcResultMessage CalcVersionTwo(CalcMessage msg)
+        {
+            var result = (msg.LeftOperand + msg.RightOperand) * 2;
+            return new CalcResultMessage(msg.JobId, 2, msg, result);
         }
 
         #region Lifecycle hooks
