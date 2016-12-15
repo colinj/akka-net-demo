@@ -50,7 +50,6 @@ namespace AkkaDemo.Common
             lock (locker)
             {
                 Console.ForegroundColor = color;
-
                 Console.WriteLine(message);
             }
         }

@@ -2,6 +2,9 @@
 using System.Threading;
 using Akka.Actor;
 using AkkaDemo.Common;
+using Akka.Configuration;
+using Akka.Configuration.Hocon;
+using System.Configuration;
 
 namespace AkkaDemo.Remote
 {
@@ -18,7 +21,11 @@ namespace AkkaDemo.Remote
             };
 
             ColorConsole.WriteLineGray("Creating Remote Actor System");
-            var actorSystem = ActorSystem.Create("akkaDemo");
+
+            var config = ConfigurationFactory.ParseString($"akka.remote.helios.tcp.hostname = {IPUtils.LocalIPAddress()}")
+                                             .WithFallback(GetAkkaConfig("akka"));
+
+            var actorSystem = ActorSystem.Create("akkaDemo", config);
 
             QuitEvent.WaitOne();
 
@@ -39,9 +46,15 @@ namespace AkkaDemo.Remote
 
         private static async void MemberRemoved(ActorSystem actorSystem)
         {
-            Thread.Sleep(10000);
+            Thread.Sleep(2000);
             await actorSystem.Terminate();
             ColorConsole.WriteLineGray("Left Cluster.");
         }
+
+        private static Config GetAkkaConfig(string sectionName)
+        {
+            return ((AkkaConfigurationSection) ConfigurationManager.GetSection(sectionName)).AkkaConfig;
+        }
+
     }
 }
