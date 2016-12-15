@@ -18,9 +18,9 @@ namespace AkkaDemo.Common.Actors
 
         private void HandleCalcMessage(CalcMessage msg)
         {
-            ColorConsole.WriteLineYellow($"Calc V1 for {msg.LeftOperand} and {msg.RightOperand}");
+            ColorConsole.WriteLineYellow($"Calc V2 for {msg.LeftOperand} and {msg.RightOperand}");
             Thread.Sleep(5000);
-            Sender.Tell(CalcVersionOne(msg));
+            Sender.Tell(CalcVersionTwo(msg));
             ColorConsole.WriteLineCyan($"Result completed.");
         }
 
